@@ -9,6 +9,9 @@
 #import "AppDelegate.h"
 #import "DetailViewController.h"
 #import "ArticleListViewController.h"
+#import "MBProgressHUD.h"
+#import "ArticlesProvider.h"
+
 
 @interface AppDelegate ()
 
@@ -20,6 +23,8 @@
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     // Override point for customization after application launch.
     UINavigationController *navigationController = (UINavigationController *)self.window.rootViewController;
+    [self fetchDataInView:navigationController.view];
+    
     //MainViewController *controller = (MainViewController *)navigationController.topViewController;
     //controller.managedObjectContext = self.managedObjectContext;
     return YES;
@@ -48,6 +53,20 @@
     // Saves changes in the application's managed object context before the application terminates.
     [self saveContext];
 }
+
+#pragma mark - Networking
+
+-(void)fetchDataInView:(UIView *)view {
+    MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:view animated:YES];
+    hud.labelText = @"We're find your news";
+    
+    [[ArticlesProvider sharedArticleProvider] requestArticlesFromFeed];
+     
+    [MBProgressHUD hideHUDForView:view animated:YES];
+}
+
+
+
 
 #pragma mark - Core Data stack
 
