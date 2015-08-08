@@ -52,8 +52,12 @@ static NSString *articlesEndpoint = @"http://news.google.com/?output=rss";
         for (NSDictionary *item in [self.xmlGoogleNews objectForKey:@"articles"]) {
             
             NSLog(@"Title : %@",[item objectForKey:@"title"]);
-            NSLog(@"DESCRPITON : %@",[item objectForKey:@"description"]);
-            
+            //NSLog(@"DESCRPITON : %@",[item objectForKey:@"description"]);
+            NSString *description = [item objectForKey:@"description"];
+            NSString *imageHTML = [self scanString:description startTag:@"<img src=" endTag:@">"];
+            NSLog(@"IMAGE HTML: %@", imageHTML);
+            NSString *summary = [self scanString:description startTag:@"</b></font><br><font size=\"-1\">" endTag:@"</font>"];
+            NSLog(@"SUMMARY: %@", summary);
         }
     
         
@@ -69,8 +73,132 @@ static NSString *articlesEndpoint = @"http://news.google.com/?output=rss";
     }];
     
     [operation start];
+}
+
+#pragma mark - HTML Parsing methods
+- (NSString *)scanString:(NSString *)string startTag:(NSString *)startTag endTag:(NSString *)endTag {
     
-//    
+    NSString* scanString = @"";
+    
+    if (string.length > 0) {
+        
+        NSScanner* scanner = [[NSScanner alloc] initWithString:string];
+        
+        @try {
+            [scanner scanUpToString:startTag intoString:nil];
+            scanner.scanLocation += [startTag length];
+            [scanner scanUpToString:endTag intoString:&scanString];
+        }
+        @catch (NSException *exception) {
+            return nil;
+        }
+        @finally {
+            return scanString;
+        }
+        
+    }
+    return scanString;
+}
+
+
+
+
+#pragma mark - Regex
+-(void)retrieveImageLinkRegexFrom:(NSString *)string {
+    
+    NSRange range = NSMakeRange(0, string.length);
+    NSString *pattern = @"<img src=[^>]+>";
+    NSError *error = NULL;
+    
+    NSRegularExpression *regex = [NSRegularExpression regularExpressionWithPattern:pattern options:NSRegularExpressionCaseInsensitive error:&error];
+    if (error) {
+        NSLog(@"Couldn't create regex with given string and options");
+    }
+    
+    NSTextCheckingResult *result = [regex firstMatchInString:string options:0 range:range];
+    NSString *firstMatch = [string substringWithRange:[result rangeAtIndex:0]];
+    
+    NSLog(@"Image: %@", firstMatch);
+}
+
+
+-(void)retrieveSummaryRegexFrom:(NSString *)string {
+    
+    NSRange range = NSMakeRange(0, string.length);
+    NSString *pattern = @"<br>[^>]+</font>";
+                                         
+    NSError *error = NULL;
+    
+    NSRegularExpression *regex = [NSRegularExpression regularExpressionWithPattern:pattern options:NSRegularExpressionCaseInsensitive error:&error];
+    if (error) {
+        NSLog(@"Couldn't create regex with given string and options");
+    }
+    
+//    NSTextCheckingResult *result = [regex firstMatchInString:string options:0 range:range];
+    NSArray *matches = [regex matchesInString:string options:0 range:range];
+    if ([matches count]) {
+        NSTextCheckingResult *result = [matches objectAtIndex:0];
+        NSString *firstMatch = [string substringWithRange:[result rangeAtIndex:0]];
+        
+        NSLog(@"SUMMARY : %@", firstMatch);
+    } else {
+        NSLog(@"Couldn't find a matching regex");
+    }
+    
+    
+    
+}
+
+
+
+
+- (NSRegularExpression *)regularExpressionWithString:(NSString *)string {
+    
+    // Create a regular expression
+    BOOL isCaseSensitive = NO;
+    BOOL isWholeWords = NO;
+    
+    NSError *error = NULL;
+    NSRegularExpressionOptions regexOptions = isCaseSensitive ? 0 : NSRegularExpressionCaseInsensitive;
+    
+    NSString *placeholder = isWholeWords ? @"\\b%@\\b" : @"%@";
+    NSString *pattern = [NSString stringWithFormat:placeholder, string];
+    
+    NSRegularExpression *regex = [NSRegularExpression regularExpressionWithPattern:pattern options:regexOptions error:&error];
+    if (error) {
+        NSLog(@"Couldn't create regex with given string and options");
+    }
+    
+    return regex;
+}
+
+
+
+
+    
+- (void)searchAndReplaceText:(NSString *)searchString withText:(NSString *)replacementString inDescription:(NSString *)description
+{
+        // Text before replacement
+        NSString *beforeText = description;
+        
+        // Create a range for it. We do the replacement on the whole
+        // range of the text view, not only a portion of it.
+        NSRange range = NSMakeRange(0, beforeText.length);
+        
+        // Call the convenient method to create a regex for us with the options we have
+        NSRegularExpression *regex = [self regularExpressionWithString:searchString];
+        
+        // Call the NSRegularExpression method to do the replacement for us
+        NSString *afterText = [regex stringByReplacingMatchesInString:beforeText options:NSMatchingReportCompletion range:range withTemplate:replacementString];
+        
+        // Update UI
+        description = afterText;
+    NSLog(@"Description: %@", afterText);
+}
+
+
+
+//
 //    AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
 //    manager.responseSerializer = [AFXMLParserResponseSerializer new];
 //    manager.responseSerializer.acceptableContentTypes = [NSSet setWithObject:@"application/rss+xml"];
@@ -97,7 +225,7 @@ static NSString *articlesEndpoint = @"http://news.google.com/?output=rss";
 //            completionHandler(nil, error);
 //        }
 //    }];
-}
+
 
 
 
@@ -158,22 +286,15 @@ static NSString *articlesEndpoint = @"http://news.google.com/?output=rss";
 - (void)parser:(NSXMLParser *)parser didEndElement:(NSString *)elementName namespaceURI:(NSString *)namespaceURI qualifiedName:(NSString *)qName {
 
     if ([qName isEqualToString:@"item"]) {
-       // self.xmlGoogleNews[qName] = @[self.currentDictionary];
-        
+
         NSMutableArray *array = self.xmlGoogleNews[@"articles"] ?: [NSMutableArray array];
         [array addObject:self.currentDictionary];
         self.xmlGoogleNews[@"articles"] = array;
-        NSLog(@"Current dictionary Title: %@", [self.currentDictionary objectForKey:@"title"]);
-//        NSLog(@"Current dictionary Link: %@", [self.currentDictionary objectForKey:@"link"]);
-      //  NSLog(@"Description From the Dictionary: %@", [self.currentDictionary objectForKey:@"description"]);
-        
         self.currentDictionary = nil;
     }
     else if (qName) {
         self.currentDictionary[qName] = self.outstring;
-       // NSLog(@"Qname: %@", qName);
     }
-    
     self.elementName = nil;
 }
 
