@@ -7,8 +7,13 @@
 //
 
 #import "ArticleListViewController.h"
+#import "ArticleDataStore.h"
+#import "Article.h"
+#import "ArticleListTableViewCell.h"
 
 @interface ArticleListViewController ()
+
+@property (strong, nonatomic) ArticleDataStore *dataStore;
 
 @end
 
@@ -16,22 +21,40 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    // Do any additional setup after loading the view.
+    self.dataStore = [ArticleDataStore sharedArticleDataStore];
+    self.articles = self.dataStore.articleArray;
+    self.navigationItem.title = @"Headline News";
 }
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
 }
 
-/*
-#pragma mark - Navigation
 
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
+#pragma mark - Table View
+
+- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
+    return 1;
 }
-*/
+
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
+    return [self.articles count];
+}
+
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
+    ArticleListTableViewCell *cell = (ArticleListTableViewCell *)[tableView dequeueReusableCellWithIdentifier:@"Cell" forIndexPath:indexPath];
+
+    [self configureCell:cell atIndexPath:indexPath];
+
+    return cell;
+}
+
+
+- (void)configureCell:(ArticleListTableViewCell *)cell atIndexPath:(NSIndexPath *)indexPath {
+    Article *article = [self.articles objectAtIndex:indexPath.row];
+    cell.titleLabel.text = article.title;
+}
+
+
 
 @end

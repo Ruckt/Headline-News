@@ -16,6 +16,8 @@
 
 @interface AppDelegate ()
 
+@property (strong, atomic) UINavigationController *navigationController;
+
 @end
 
 @implementation AppDelegate
@@ -23,8 +25,8 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     // Override point for customization after application launch.
-    UINavigationController *navigationController = (UINavigationController *)self.window.rootViewController;
-    [self fetchDataInView:navigationController.view];
+    self.navigationController = (UINavigationController *)self.window.rootViewController;
+    [self fetchDataInView:self.navigationController.view];
     
     //MainViewController *controller = (MainViewController *)navigationController.topViewController;
     //controller.managedObjectContext = self.managedObjectContext;
@@ -67,6 +69,12 @@
         for (Article *article in articles) {
             NSLog(@"AppDelegate article title: %@", article.title);
         }
+        
+        
+        ArticleListViewController *controller = (ArticleListViewController *)self.navigationController.topViewController;
+        controller.articles = articles;
+        [controller.tableView reloadData];
+        
         [MBProgressHUD hideHUDForView:view animated:YES];
     }];
     

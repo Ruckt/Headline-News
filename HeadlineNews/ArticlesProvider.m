@@ -40,10 +40,8 @@ static NSString *articlesEndpoint = @"http://news.google.com/?output=rss";
 
 - (id)init {
     _dataStore = [ArticleDataStore sharedArticleDataStore];
-    NSLog(@"Here here here");
     return self;
 }
-
 
 - (void)requestArticlesFromFeedWithCompletionHandler: (void(^)(NSArray* articles, NSError *error))completionHandler{
     
@@ -83,7 +81,6 @@ static NSString *articlesEndpoint = @"http://news.google.com/?output=rss";
             NSLog(@"Title : %@", article.title);
             NSLog(@"SUMMARY: %@", summary);
         }
-        
         
         NSLog(@"ATTEND TO ISSUES ABOVE: date, imageHTML, image, articleHTML");
         
