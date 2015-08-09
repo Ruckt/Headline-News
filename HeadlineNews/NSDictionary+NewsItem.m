@@ -13,7 +13,11 @@
 
 - (NSString *)title {
     NSString *string = self[@"title"];
-    NSLog(@"TITLE: %@", string);
+    return string;
+}
+
+- (NSString *)descriptionHtml {
+    NSString *string = self[@"description"];
     return string;
 }
 

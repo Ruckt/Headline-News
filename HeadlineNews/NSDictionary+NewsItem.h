@@ -11,5 +11,6 @@
 @interface NSDictionary (NewsItem)
 
 - (NSString *)title;
+- (NSString *)descriptionHtml;
 
 @end

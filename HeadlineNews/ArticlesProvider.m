@@ -8,6 +8,7 @@
 
 #import "ArticlesProvider.h"
 #import "ArticleDataStore.h"
+#import "Article+Methods.h"
 #import <AFNetworking.h>
 #import "NSDictionary+NewsItem.h"
 
@@ -16,6 +17,7 @@ static NSString *articlesEndpoint = @"http://news.google.com/?output=rss";
 @interface ArticlesProvider ()
 
 @property(nonatomic, strong) ArticleDataStore *dataStore;
+@property(nonatomic, strong) NSMutableArray *articlesArray;
 
 @property(nonatomic, strong) NSMutableDictionary *currentDictionary;   // current section being parsed
 @property(nonatomic, strong) NSMutableDictionary *xmlGoogleNews;          // completed parsed xml response
@@ -43,7 +45,7 @@ static NSString *articlesEndpoint = @"http://news.google.com/?output=rss";
 }
 
 
-- (void)requestArticlesFromFeed {
+- (void)requestArticlesFromFeedWithCompletionHandler: (void(^)(NSArray* articles, NSError *error))completionHandler{
     
     NSURL *url = [NSURL URLWithString:articlesEndpoint];
     NSURLRequest *request = [NSURLRequest requestWithURL:url];
@@ -59,19 +61,39 @@ static NSString *articlesEndpoint = @"http://news.google.com/?output=rss";
          XMLParser.delegate = self;
          [XMLParser parse];
         
+        self.articlesArray = [[NSMutableArray alloc] init];
+        
         for (NSDictionary *item in [self.xmlGoogleNews objectForKey:@"articles"]) {
+
+            NSString *title = item.title;
+            NSString *desciptionHtml = item.descriptionHtml;
+            NSString *articleURL = @"BIG LONG URL";
+            NSString *imageHTML = [self scanString:desciptionHtml startTag:@"<img src=" endTag:@">"];
+            NSString *summary = [self scanString:desciptionHtml startTag:@"</b></font><br><font size=\"-1\">" endTag:@"</font>"];
             
-            NSLog(@"Title : %@",[item objectForKey:@"title"]);
-            //NSLog(@"DESCRPITON : %@",[item objectForKey:@"description"]);
-            NSString *description = [item objectForKey:@"description"];
-            NSString *imageHTML = [self scanString:description startTag:@"<img src=" endTag:@">"];
+            
+            NSDate *date = [NSDate date];
+            UIImage *image = [[UIImage alloc] init];
+
+            Article *article = [Article articleTitle:title date:date summary:summary articleURL:articleURL imageURL:imageHTML image:image inManagedObjectContext:self.dataStore.managedObjectContext];
+            
+            [self.articlesArray addObject:article];
+            
             NSLog(@"IMAGE HTML: %@", imageHTML);
-            NSString *summary = [self scanString:description startTag:@"</b></font><br><font size=\"-1\">" endTag:@"</font>"];
+            NSLog(@"Title : %@", article.title);
             NSLog(@"SUMMARY: %@", summary);
         }
-    
+        
+        
+        NSLog(@"ATTEND TO ISSUES ABOVE: date, imageHTML, image, articleHTML");
+        
+        if (completionHandler) {
+            completionHandler(self.articlesArray,nil);
+        }
         
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+        
+        NSLog(@"Error: %@", error);
         
         UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Error Retrieving Data"
                                                             message:[error localizedDescription]
@@ -80,6 +102,9 @@ static NSString *articlesEndpoint = @"http://news.google.com/?output=rss";
                                                   otherButtonTitles:nil];
         [alertView show];
         
+        if (completionHandler) {
+            completionHandler(nil, error);
+        }
     }];
     
     [operation start];
@@ -110,66 +135,6 @@ static NSString *articlesEndpoint = @"http://news.google.com/?output=rss";
     return scanString;
 }
 
-
-
-//
-//    AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
-//    manager.responseSerializer = [AFXMLParserResponseSerializer new];
-//    manager.responseSerializer.acceptableContentTypes = [NSSet setWithObject:@"application/rss+xml"];
-//    
-//    [manager GET:articlesEndpoint parameters:nil success:^(AFHTTPRequestOperation *operation, id responseObject) {
-//         NSLog(@"Dictionary dictionary: %@", responseObject);
-////        NSDictionary *responseDictionary = (NSDictionary *)responseObject;
-////        
-////        NSArray *articleResponse = [self articlesObjectsFromResponse:responseDictionary];
-//        if (completionHandler) {
-//            completionHandler(responseObject,nil);
-//        }
-//    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-//        NSLog(@"Error: %@", error);
-//        
-//        UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Error Retrieving Data"
-//                                                            message:[error localizedDescription]
-//                                                           delegate:nil
-//                                                  cancelButtonTitle:@"Ok"
-//                                                  otherButtonTitles:nil];
-//        [alertView show];
-//        
-//        if (completionHandler) {
-//            completionHandler(nil, error);
-//        }
-//    }];
-
-
-
-
-
-
-+ (NSArray *)articlesObjectsFromResponse:(NSDictionary *)dictionary {
-    NSLog(@"Response Dictionary count: %lu, data: %@", (unsigned long)[dictionary count], dictionary);
-    NSMutableArray *articlesArray = [[NSMutableArray alloc] init];
-    
-//    for (NSDictionary *oneClinic in dictionary) {
-//        
-//        ClinicDataObject *clinic = [[ClinicDataObject alloc] init];
-//        clinic.name = oneClinic[@"name"];
-//        clinic.phoneNumber = oneClinic[@"phone_number"];
-//        clinic.address1 = oneClinic[@"address_1"];
-//        clinic.address2 = oneClinic[@"address_2"];
-//        clinic.city = oneClinic[@"city"];
-//        clinic.state = oneClinic[@"state"];
-//        clinic.zipCode = oneClinic[@"zip_code"];
-//        clinic.servicesOffered = oneClinic[@"services_offered"];
-//        clinic.appointmentHours = oneClinic[@"appointments_hours"];
-//        
-//        NSDictionary *locationDictionary = oneClinic[@"location"];
-//        clinic.latitude = [locationDictionary[@"latitude"] floatValue];
-//        clinic.longitude = [locationDictionary[@"longitude"] floatValue];
-//        clinic.humanAddress = locationDictionary[@"human_address"];
-//        [clinicsArray addObject:clinic];
-//    }
-    return articlesArray;
-}
 
 #pragma mark - XML Parser
 
@@ -213,11 +178,7 @@ static NSString *articlesEndpoint = @"http://news.google.com/?output=rss";
 }
 
 - (void)parserDidEndDocument:(NSXMLParser *)parser {
-    
-    NSLog(@"Parser did end document");//: %@", [self.xmlGoogleNews objectForKey:@"category"]);
-//    self.weather = @{@"data": self.xmlWeather};
-//    self.title = @"XML Retrieved";
-//    [self.tableView reloadData];
+    NSLog(@"Parser did end document");
 }
 
 

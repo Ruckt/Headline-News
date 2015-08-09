@@ -19,13 +19,14 @@
   inManagedObjectContext:(NSManagedObjectContext *)context {
     
     Article *article = nil;
+    article =[NSEntityDescription insertNewObjectForEntityForName:@"Article" inManagedObjectContext:context];
     article.title = title;
     article.date = date;
     article.summary = summary;
     article.articleURL = articleURL;
     article.imageURL = imageURL;
     article.image = image;
-    article =[NSEntityDescription insertNewObjectForEntityForName:@"Article" inManagedObjectContext:context];
+    
     
     return article;
 }

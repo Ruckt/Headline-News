@@ -12,7 +12,7 @@
 
 + (ArticlesProvider *)sharedArticleProvider;
 
-- (void)requestArticlesFromFeed;
+- (void)requestArticlesFromFeedWithCompletionHandler: (void(^)(NSArray* articles, NSError *error))completionHandler;
 
 @end
 

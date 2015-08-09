@@ -11,6 +11,7 @@
 #import "ArticleListViewController.h"
 #import "MBProgressHUD.h"
 #import "ArticlesProvider.h"
+#import "Article.h"
 
 
 @interface AppDelegate ()
@@ -57,11 +58,18 @@
 
 -(void)fetchDataInView:(UIView *)view {
     MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:view animated:YES];
-    hud.labelText = @"We're find your news";
+    hud.labelText = @"We're finding your news";
     
-    [[ArticlesProvider sharedArticleProvider] requestArticlesFromFeed];
-     
-    [MBProgressHUD hideHUDForView:view animated:YES];
+    [[ArticlesProvider sharedArticleProvider] requestArticlesFromFeedWithCompletionHandler:^(NSArray *articles, NSError *error) {
+        if (error) {
+            NSLog(@"Error: %@", error);
+        }
+        for (Article *article in articles) {
+            NSLog(@"AppDelegate article title: %@", article.title);
+        }
+        [MBProgressHUD hideHUDForView:view animated:YES];
+    }];
+    
 }
 
 
