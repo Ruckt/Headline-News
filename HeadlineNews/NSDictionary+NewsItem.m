@@ -21,5 +21,9 @@
     return string;
 }
 
+- (NSString *)pubDate {
+    NSString *string = self[@"pubDate"];
+    return string;
+}
 
 @end

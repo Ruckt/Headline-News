@@ -11,10 +11,10 @@
 @interface Article (Methods)
 
 + (Article *) articleTitle:(NSString *)title
-                      date:(NSDate *)date
+                    source:(NSString *)source
+                      date:(NSString *)date
                    summary:(NSString *)summary
                 articleURL:(NSString *)articleURL
                   imageURL:(NSString *)imageURL
-                     image:(id)image
     inManagedObjectContext:(NSManagedObjectContext *)context;
 @end

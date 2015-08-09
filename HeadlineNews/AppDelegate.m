@@ -24,12 +24,10 @@
 
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
-    // Override point for customization after application launch.
+
     self.navigationController = (UINavigationController *)self.window.rootViewController;
     [self fetchDataInView:self.navigationController.view];
-    
-    //MainViewController *controller = (MainViewController *)navigationController.topViewController;
-    //controller.managedObjectContext = self.managedObjectContext;
+
     return YES;
 }
 
@@ -59,22 +57,18 @@
 #pragma mark - Networking
 
 -(void)fetchDataInView:(UIView *)view {
+    
     MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:view animated:YES];
     hud.labelText = @"We're finding your news";
     
     [[ArticlesProvider sharedArticleProvider] requestArticlesFromFeedWithCompletionHandler:^(NSArray *articles, NSError *error) {
+
         if (error) {
             NSLog(@"Error: %@", error);
         }
-        for (Article *article in articles) {
-            NSLog(@"AppDelegate article title: %@", article.title);
-        }
-        
-        
         ArticleListViewController *controller = (ArticleListViewController *)self.navigationController.topViewController;
         controller.articles = articles;
         [controller.tableView reloadData];
-        
         [MBProgressHUD hideHUDForView:view animated:YES];
     }];
     

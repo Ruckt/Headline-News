@@ -12,5 +12,6 @@
 
 - (NSString *)title;
 - (NSString *)descriptionHtml;
+- (NSString *)pubDate;
 
 @end

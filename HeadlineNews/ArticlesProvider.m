@@ -17,7 +17,6 @@ static NSString *articlesEndpoint = @"http://news.google.com/?output=rss";
 @interface ArticlesProvider ()
 
 @property(nonatomic, strong) ArticleDataStore *dataStore;
-@property(nonatomic, strong) NSMutableArray *articlesArray;
 
 @property(nonatomic, strong) NSMutableDictionary *currentDictionary;   // current section being parsed
 @property(nonatomic, strong) NSMutableDictionary *xmlGoogleNews;          // completed parsed xml response
@@ -53,39 +52,14 @@ static NSString *articlesEndpoint = @"http://news.google.com/?output=rss";
     operation.responseSerializer.acceptableContentTypes = [NSSet setWithObject:@"application/rss+xml"];
     [operation setCompletionBlockWithSuccess:^(AFHTTPRequestOperation *operation, id responseObject) {
        
-        NSXMLParser *XMLParser = (NSXMLParser *)responseObject;
-        [XMLParser setShouldProcessNamespaces:YES];
+        [self parseMethodsOfObject:responseObject];
         
-         XMLParser.delegate = self;
-         [XMLParser parse];
-        
-        self.articlesArray = [[NSMutableArray alloc] init];
-        
-        for (NSDictionary *item in [self.xmlGoogleNews objectForKey:@"articles"]) {
-
-            NSString *title = item.title;
-            NSString *desciptionHtml = item.descriptionHtml;
-            NSString *articleURL = @"BIG LONG URL";
-            NSString *imageHTML = [self scanString:desciptionHtml startTag:@"<img src=" endTag:@">"];
-            NSString *summary = [self scanString:desciptionHtml startTag:@"</b></font><br><font size=\"-1\">" endTag:@"</font>"];
-            
-            
-            NSDate *date = [NSDate date];
-            UIImage *image = [[UIImage alloc] init];
-
-            Article *article = [Article articleTitle:title date:date summary:summary articleURL:articleURL imageURL:imageHTML image:image inManagedObjectContext:self.dataStore.managedObjectContext];
-            
-            [self.articlesArray addObject:article];
-            
-            NSLog(@"IMAGE HTML: %@", imageHTML);
-            NSLog(@"Title : %@", article.title);
-            NSLog(@"SUMMARY: %@", summary);
-        }
+        NSArray *arrayOfArticles = [self createArrayOfArticleObjectsFrom:self.xmlGoogleNews];
         
         NSLog(@"ATTEND TO ISSUES ABOVE: date, imageHTML, image, articleHTML");
         
         if (completionHandler) {
-            completionHandler(self.articlesArray,nil);
+            completionHandler(arrayOfArticles,nil);
         }
         
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
@@ -107,7 +81,73 @@ static NSString *articlesEndpoint = @"http://news.google.com/?output=rss";
     [operation start];
 }
 
+
+-(NSArray *)createArrayOfArticleObjectsFrom:(NSDictionary *)dictionary {
+    
+    NSMutableArray *array = [[NSMutableArray alloc] init];
+    
+    for (NSDictionary *item in [dictionary objectForKey:@"articles"]) {
+        
+        
+        NSArray *titleParts = [item.title componentsSeparatedByString:@" - "];
+        
+        NSString *title = @"";
+        NSString *source = @"";
+        
+        for (NSInteger i = 0; i< [titleParts count]; i++) {
+            if (i < [titleParts count]-1) {
+                title = [title stringByAppendingString:[titleParts objectAtIndex:i]];
+            } else {
+                source = [titleParts  objectAtIndex:i];
+            }
+        }
+        
+        NSString *desciptionHtml = item.descriptionHtml;
+        NSString *pubDate = item.pubDate;
+        NSString *articleURL = [self extractArticleURLFromHTML:desciptionHtml];
+        NSString *imageURL = [self extractImageURLFromHTML:desciptionHtml];
+        NSString *summary = [self scanString:desciptionHtml startTag:@"</b></font><br><font size=\"-1\">" endTag:@"</font>"];
+        NSString *date = [self extractDateFrom:pubDate];
+        
+        Article *article = [Article articleTitle:title source:source date:date summary:summary articleURL:articleURL imageURL:imageURL inManagedObjectContext:self.dataStore.managedObjectContext];
+        
+        [array addObject:article];
+    }
+    
+    return array;
+}
+
+-(NSString *)extractImageURLFromHTML:(NSString *)html {
+    NSString *imgTag =[self scanString:html startTag:@"<img src=" endTag:@">"];
+    NSString *imgAddress = [self scanString:imgTag startTag:@"\"" endTag:@"\""];
+    
+    return [NSString stringWithFormat:@"%@%@", @"http:", imgAddress];
+}
+
+//The first href in the description tag includes first the google rss link feed followed by the article link
+-(NSString *)extractArticleURLFromHTML:(NSString *)html {
+    NSString *href = [self scanString:html startTag:@"<a href=" endTag:@"\">"];
+    NSArray *twoLinks = [href componentsSeparatedByString:@"url="];
+    return [twoLinks objectAtIndex:1];
+}
+
+//Change date into common used format
+-(NSString *)extractDateFrom:(NSString *)string {
+    NSArray *dateParts = [string componentsSeparatedByString:@" "];
+    NSString *weekDay = [dateParts objectAtIndex:0];
+    NSString *day = [dateParts objectAtIndex:1];
+    NSString *month = [dateParts objectAtIndex:2];
+    NSString *year = [dateParts objectAtIndex:3];
+    
+    NSString *dateString = @"";
+    dateString = [dateString stringByAppendingFormat:@"%@ %@ %@, %@",weekDay,month,day,year];
+
+    return dateString;
+}
+
+
 #pragma mark - HTML Parsing methods
+//This method always returns the first instance it finds with the included parameters
 - (NSString *)scanString:(NSString *)string startTag:(NSString *)startTag endTag:(NSString *)endTag {
     
     NSString* scanString = @"";
@@ -135,6 +175,15 @@ static NSString *articlesEndpoint = @"http://news.google.com/?output=rss";
 
 #pragma mark - XML Parser
 
+-(void)parseMethodsOfObject:(NSXMLParser *)object {
+    
+    NSXMLParser *XMLParser = (NSXMLParser *)object;
+    [XMLParser setShouldProcessNamespaces:YES];
+    
+    XMLParser.delegate = self;
+    [XMLParser parse];
+}
+
 - (void)parserDidStartDocument:(NSXMLParser *)parser {
     self.xmlGoogleNews = [NSMutableDictionary dictionary];
 }
@@ -146,6 +195,10 @@ static NSString *articlesEndpoint = @"http://news.google.com/?output=rss";
     if([qName isEqualToString:@"item"]) {
         self.currentDictionary = [NSMutableDictionary dictionary];
     }
+    
+//    else if ([qName isEqualToString:@"pubDate"]) {
+//        self.currentDictionary = [NSMutableDictionary dictionary];
+//    }
     
     self.outstring = [NSMutableString string];
 }

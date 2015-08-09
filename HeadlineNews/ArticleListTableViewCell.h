@@ -12,6 +12,7 @@
 
 @property (nonatomic, weak) IBOutlet UIImageView *cellImageView;
 @property (nonatomic, weak) IBOutlet UILabel *titleLabel;
+@property (nonatomic, weak) IBOutlet UILabel *sourceLabel;
 @property (nonatomic, weak) IBOutlet UILabel *summaryLabel;
 
 

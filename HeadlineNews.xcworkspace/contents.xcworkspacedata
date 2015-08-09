@@ -2,6 +2,12 @@
 <Workspace
    version = "1.0">
    <FileRef
+      location = "group:Article.h">
+   </FileRef>
+   <FileRef
+      location = "group:Article.m">
+   </FileRef>
+   <FileRef
       location = "group:HeadlineNews.xcodeproj">
    </FileRef>
    <FileRef

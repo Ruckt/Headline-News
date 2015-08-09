@@ -53,6 +53,8 @@
 - (void)configureCell:(ArticleListTableViewCell *)cell atIndexPath:(NSIndexPath *)indexPath {
     Article *article = [self.articles objectAtIndex:indexPath.row];
     cell.titleLabel.text = article.title;
+    cell.sourceLabel.text = article.source;
+    cell.summaryLabel.text = article.summary;
 }
 
 

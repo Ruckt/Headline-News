@@ -2,7 +2,7 @@
 //  Article.m
 //  
 //
-//  Created by Edan Lichtenstein on 8/8/15.
+//  Created by Edan Lichtenstein on 8/9/15.
 //
 //
 
@@ -11,12 +11,12 @@
 
 @implementation Article
 
+@dynamic articleURL;
 @dynamic date;
+@dynamic image;
 @dynamic imageURL;
 @dynamic summary;
-@dynamic source;
-@dynamic articleURL;
 @dynamic title;
-@dynamic image;
+@dynamic source;
 
 @end

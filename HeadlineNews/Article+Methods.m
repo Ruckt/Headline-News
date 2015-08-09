@@ -10,13 +10,13 @@
 
 @implementation Article (Methods)
 
-+(Article *)articleTitle:(NSString *)title
-                    date:(NSDate *)date
-                 summary:(NSString *)summary
-              articleURL:(NSString *)articleURL
-                imageURL:(NSString *)imageURL
-                   image:(id)image
-  inManagedObjectContext:(NSManagedObjectContext *)context {
++ (Article *) articleTitle:(NSString *)title
+                    source:(NSString *)source
+                      date:(NSString *)date
+                   summary:(NSString *)summary
+                articleURL:(NSString *)articleURL
+                  imageURL:(NSString *)imageURL
+    inManagedObjectContext:(NSManagedObjectContext *)context {
     
     Article *article = nil;
     article =[NSEntityDescription insertNewObjectForEntityForName:@"Article" inManagedObjectContext:context];
@@ -25,7 +25,7 @@
     article.summary = summary;
     article.articleURL = articleURL;
     article.imageURL = imageURL;
-    article.image = image;
+    article.source = source;
     
     
     return article;

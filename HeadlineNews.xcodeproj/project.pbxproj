@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		96DA2D92895C2C6BCA69B18D /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 9D80908E153042571B7BF271 /* libPods.a */; };
 		E22A69121B77F0C1001E9BCD /* ArticleListTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = E22A69111B77F0C1001E9BCD /* ArticleListTableViewCell.m */; };
+		E22A69161B781CCA001E9BCD /* ImageProvider.m in Sources */ = {isa = PBXBuildFile; fileRef = E22A69151B781CCA001E9BCD /* ImageProvider.m */; };
 		E23418711B71096F0087EA6F /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = E23418701B71096F0087EA6F /* main.m */; };
 		E23418741B71096F0087EA6F /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = E23418731B71096F0087EA6F /* AppDelegate.m */; };
 		E23418771B71096F0087EA6F /* HeadlineNews.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = E23418751B71096F0087EA6F /* HeadlineNews.xcdatamodeld */; };
@@ -42,6 +43,8 @@
 		9D80908E153042571B7BF271 /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		E22A69101B77F0C1001E9BCD /* ArticleListTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ArticleListTableViewCell.h; sourceTree = "<group>"; };
 		E22A69111B77F0C1001E9BCD /* ArticleListTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ArticleListTableViewCell.m; sourceTree = "<group>"; };
+		E22A69141B781CCA001E9BCD /* ImageProvider.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ImageProvider.h; sourceTree = "<group>"; };
+		E22A69151B781CCA001E9BCD /* ImageProvider.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ImageProvider.m; sourceTree = "<group>"; };
 		E234186B1B71096F0087EA6F /* HeadlineNews.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = HeadlineNews.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		E234186F1B71096F0087EA6F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		E23418701B71096F0087EA6F /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
@@ -118,6 +121,15 @@
 			name = Interface;
 			sourceTree = "<group>";
 		};
+		E22A69131B77FB98001E9BCD /* Constants */ = {
+			isa = PBXGroup;
+			children = (
+				E2CEF22C1B73E80E002D03D5 /* NSDictionary+NewsItem.h */,
+				E2CEF22D1B73E80E002D03D5 /* NSDictionary+NewsItem.m */,
+			);
+			name = Constants;
+			sourceTree = "<group>";
+		};
 		E23418621B71096F0087EA6F = {
 			isa = PBXGroup;
 			children = (
@@ -146,6 +158,7 @@
 				E22A690F1B77F046001E9BCD /* Interface */,
 				E2CEF22F1B76B767002D03D5 /* DataModel */,
 				E234189D1B72715C0087EA6F /* Networking */,
+				E22A69131B77FB98001E9BCD /* Constants */,
 				E234189A1B71B18E0087EA6F /* ArticleListViewController.h */,
 				E234189B1B71B18E0087EA6F /* ArticleListViewController.m */,
 				E23418781B71096F0087EA6F /* MasterViewController.h */,
@@ -190,8 +203,8 @@
 			children = (
 				E234189E1B7272B50087EA6F /* ArticlesProvider.h */,
 				E234189F1B7272B50087EA6F /* ArticlesProvider.m */,
-				E2CEF22C1B73E80E002D03D5 /* NSDictionary+NewsItem.h */,
-				E2CEF22D1B73E80E002D03D5 /* NSDictionary+NewsItem.m */,
+				E22A69141B781CCA001E9BCD /* ImageProvider.h */,
+				E22A69151B781CCA001E9BCD /* ImageProvider.m */,
 			);
 			name = Networking;
 			sourceTree = "<group>";
@@ -350,6 +363,7 @@
 				E2CEF23E1B7709B4002D03D5 /* Article+Methods.m in Sources */,
 				E2CEF22E1B73E80E002D03D5 /* NSDictionary+NewsItem.m in Sources */,
 				E234187D1B71096F0087EA6F /* DetailViewController.m in Sources */,
+				E22A69161B781CCA001E9BCD /* ImageProvider.m in Sources */,
 				E2CEF2321B76B880002D03D5 /* ArticleDataStore.m in Sources */,
 				E234189C1B71B18E0087EA6F /* ArticleListViewController.m in Sources */,
 				E234187A1B71096F0087EA6F /* MasterViewController.m in Sources */,
