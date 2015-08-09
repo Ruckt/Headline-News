@@ -7,12 +7,15 @@
 //
 
 #import "ArticlesProvider.h"
+#import "ArticleDataStore.h"
 #import <AFNetworking.h>
 #import "NSDictionary+NewsItem.h"
 
 static NSString *articlesEndpoint = @"http://news.google.com/?output=rss";
 
 @interface ArticlesProvider ()
+
+@property(nonatomic, strong) ArticleDataStore *dataStore;
 
 @property(nonatomic, strong) NSMutableDictionary *currentDictionary;   // current section being parsed
 @property(nonatomic, strong) NSMutableDictionary *xmlGoogleNews;          // completed parsed xml response
@@ -23,8 +26,8 @@ static NSString *articlesEndpoint = @"http://news.google.com/?output=rss";
 
 @implementation ArticlesProvider
 
-+ (ArticlesProvider *)sharedArticleProvider
-{
++ (ArticlesProvider *)sharedArticleProvider {
+    
     static ArticlesProvider *provider;
     @synchronized(self) {
         if (!provider)
@@ -32,6 +35,13 @@ static NSString *articlesEndpoint = @"http://news.google.com/?output=rss";
     }
     return provider;
 }
+
+- (id)init {
+    _dataStore = [ArticleDataStore sharedArticleDataStore];
+    NSLog(@"Here here here");
+    return self;
+}
+
 
 - (void)requestArticlesFromFeed {
     
@@ -98,102 +108,6 @@ static NSString *articlesEndpoint = @"http://news.google.com/?output=rss";
         
     }
     return scanString;
-}
-
-
-
-
-#pragma mark - Regex
--(void)retrieveImageLinkRegexFrom:(NSString *)string {
-    
-    NSRange range = NSMakeRange(0, string.length);
-    NSString *pattern = @"<img src=[^>]+>";
-    NSError *error = NULL;
-    
-    NSRegularExpression *regex = [NSRegularExpression regularExpressionWithPattern:pattern options:NSRegularExpressionCaseInsensitive error:&error];
-    if (error) {
-        NSLog(@"Couldn't create regex with given string and options");
-    }
-    
-    NSTextCheckingResult *result = [regex firstMatchInString:string options:0 range:range];
-    NSString *firstMatch = [string substringWithRange:[result rangeAtIndex:0]];
-    
-    NSLog(@"Image: %@", firstMatch);
-}
-
-
--(void)retrieveSummaryRegexFrom:(NSString *)string {
-    
-    NSRange range = NSMakeRange(0, string.length);
-    NSString *pattern = @"<br>[^>]+</font>";
-                                         
-    NSError *error = NULL;
-    
-    NSRegularExpression *regex = [NSRegularExpression regularExpressionWithPattern:pattern options:NSRegularExpressionCaseInsensitive error:&error];
-    if (error) {
-        NSLog(@"Couldn't create regex with given string and options");
-    }
-    
-//    NSTextCheckingResult *result = [regex firstMatchInString:string options:0 range:range];
-    NSArray *matches = [regex matchesInString:string options:0 range:range];
-    if ([matches count]) {
-        NSTextCheckingResult *result = [matches objectAtIndex:0];
-        NSString *firstMatch = [string substringWithRange:[result rangeAtIndex:0]];
-        
-        NSLog(@"SUMMARY : %@", firstMatch);
-    } else {
-        NSLog(@"Couldn't find a matching regex");
-    }
-    
-    
-    
-}
-
-
-
-
-- (NSRegularExpression *)regularExpressionWithString:(NSString *)string {
-    
-    // Create a regular expression
-    BOOL isCaseSensitive = NO;
-    BOOL isWholeWords = NO;
-    
-    NSError *error = NULL;
-    NSRegularExpressionOptions regexOptions = isCaseSensitive ? 0 : NSRegularExpressionCaseInsensitive;
-    
-    NSString *placeholder = isWholeWords ? @"\\b%@\\b" : @"%@";
-    NSString *pattern = [NSString stringWithFormat:placeholder, string];
-    
-    NSRegularExpression *regex = [NSRegularExpression regularExpressionWithPattern:pattern options:regexOptions error:&error];
-    if (error) {
-        NSLog(@"Couldn't create regex with given string and options");
-    }
-    
-    return regex;
-}
-
-
-
-
-    
-- (void)searchAndReplaceText:(NSString *)searchString withText:(NSString *)replacementString inDescription:(NSString *)description
-{
-        // Text before replacement
-        NSString *beforeText = description;
-        
-        // Create a range for it. We do the replacement on the whole
-        // range of the text view, not only a portion of it.
-        NSRange range = NSMakeRange(0, beforeText.length);
-        
-        // Call the convenient method to create a regex for us with the options we have
-        NSRegularExpression *regex = [self regularExpressionWithString:searchString];
-        
-        // Call the NSRegularExpression method to do the replacement for us
-        NSString *afterText = [regex stringByReplacingMatchesInString:beforeText options:NSMatchingReportCompletion range:range withTemplate:replacementString];
-        
-        // Update UI
-        description = afterText;
-    NSLog(@"Description: %@", afterText);
 }
 
 

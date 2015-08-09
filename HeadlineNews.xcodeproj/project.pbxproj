@@ -20,6 +20,9 @@
 		E234189C1B71B18E0087EA6F /* ArticleListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E234189B1B71B18E0087EA6F /* ArticleListViewController.m */; };
 		E23418A01B7272B50087EA6F /* ArticlesProvider.m in Sources */ = {isa = PBXBuildFile; fileRef = E234189F1B7272B50087EA6F /* ArticlesProvider.m */; };
 		E2CEF22E1B73E80E002D03D5 /* NSDictionary+NewsItem.m in Sources */ = {isa = PBXBuildFile; fileRef = E2CEF22D1B73E80E002D03D5 /* NSDictionary+NewsItem.m */; };
+		E2CEF2321B76B880002D03D5 /* ArticleDataStore.m in Sources */ = {isa = PBXBuildFile; fileRef = E2CEF2311B76B87F002D03D5 /* ArticleDataStore.m */; };
+		E2CEF23B1B76FCE8002D03D5 /* Article.m in Sources */ = {isa = PBXBuildFile; fileRef = E2CEF23A1B76FCE8002D03D5 /* Article.m */; };
+		E2CEF23E1B7709B4002D03D5 /* Article+Methods.m in Sources */ = {isa = PBXBuildFile; fileRef = E2CEF23D1B7709B4002D03D5 /* Article+Methods.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -58,6 +61,12 @@
 		E234189F1B7272B50087EA6F /* ArticlesProvider.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ArticlesProvider.m; sourceTree = "<group>"; };
 		E2CEF22C1B73E80E002D03D5 /* NSDictionary+NewsItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSDictionary+NewsItem.h"; sourceTree = "<group>"; };
 		E2CEF22D1B73E80E002D03D5 /* NSDictionary+NewsItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSDictionary+NewsItem.m"; sourceTree = "<group>"; };
+		E2CEF2301B76B87F002D03D5 /* ArticleDataStore.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ArticleDataStore.h; sourceTree = "<group>"; };
+		E2CEF2311B76B87F002D03D5 /* ArticleDataStore.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ArticleDataStore.m; sourceTree = "<group>"; };
+		E2CEF2391B76FCE8002D03D5 /* Article.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Article.h; sourceTree = "<group>"; };
+		E2CEF23A1B76FCE8002D03D5 /* Article.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Article.m; sourceTree = "<group>"; };
+		E2CEF23C1B7709B4002D03D5 /* Article+Methods.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "Article+Methods.h"; sourceTree = "<group>"; };
+		E2CEF23D1B7709B4002D03D5 /* Article+Methods.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "Article+Methods.m"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -119,6 +128,7 @@
 		E234186D1B71096F0087EA6F /* HeadlineNews */ = {
 			isa = PBXGroup;
 			children = (
+				E2CEF22F1B76B767002D03D5 /* DataModel */,
 				E234189D1B72715C0087EA6F /* Networking */,
 				E23418721B71096F0087EA6F /* AppDelegate.h */,
 				E23418731B71096F0087EA6F /* AppDelegate.m */,
@@ -131,7 +141,6 @@
 				E234187C1B71096F0087EA6F /* DetailViewController.m */,
 				E23418811B71096F0087EA6F /* Images.xcassets */,
 				E23418831B71096F0087EA6F /* LaunchScreen.xib */,
-				E23418751B71096F0087EA6F /* HeadlineNews.xcdatamodeld */,
 				E234186E1B71096F0087EA6F /* Supporting Files */,
 			);
 			path = HeadlineNews;
@@ -172,6 +181,20 @@
 				E2CEF22D1B73E80E002D03D5 /* NSDictionary+NewsItem.m */,
 			);
 			name = Networking;
+			sourceTree = "<group>";
+		};
+		E2CEF22F1B76B767002D03D5 /* DataModel */ = {
+			isa = PBXGroup;
+			children = (
+				E2CEF2301B76B87F002D03D5 /* ArticleDataStore.h */,
+				E2CEF2311B76B87F002D03D5 /* ArticleDataStore.m */,
+				E2CEF2391B76FCE8002D03D5 /* Article.h */,
+				E2CEF23A1B76FCE8002D03D5 /* Article.m */,
+				E2CEF23C1B7709B4002D03D5 /* Article+Methods.h */,
+				E2CEF23D1B7709B4002D03D5 /* Article+Methods.m */,
+				E23418751B71096F0087EA6F /* HeadlineNews.xcdatamodeld */,
+			);
+			name = DataModel;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -309,8 +332,11 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E2CEF23B1B76FCE8002D03D5 /* Article.m in Sources */,
+				E2CEF23E1B7709B4002D03D5 /* Article+Methods.m in Sources */,
 				E2CEF22E1B73E80E002D03D5 /* NSDictionary+NewsItem.m in Sources */,
 				E234187D1B71096F0087EA6F /* DetailViewController.m in Sources */,
+				E2CEF2321B76B880002D03D5 /* ArticleDataStore.m in Sources */,
 				E234189C1B71B18E0087EA6F /* ArticleListViewController.m in Sources */,
 				E234187A1B71096F0087EA6F /* MasterViewController.m in Sources */,
 				E23418A01B7272B50087EA6F /* ArticlesProvider.m in Sources */,
