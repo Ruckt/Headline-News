@@ -7,8 +7,12 @@
 //
 
 #import "DetailViewController.h"
+#import "MBProgressHUD.h"
 
 @interface DetailViewController ()
+
+@property (weak, nonatomic) IBOutlet UIWebView *webView;
+@property (strong, nonatomic) IBOutlet UINavigationItem *navigationBar;
 
 @end
 
@@ -16,25 +20,17 @@
 
 #pragma mark - Managing the detail item
 
-- (void)setDetailItem:(id)newDetailItem {
-    if (_detailItem != newDetailItem) {
-        _detailItem = newDetailItem;
-            
-        // Update the view.
-        [self configureView];
-    }
+- (void)configureView {
+    self.navigationBar.title =  self.article.source;
+    NSMutableURLRequest * request =[NSMutableURLRequest requestWithURL:[NSURL URLWithString:self.article.articleURL]];
+    [self.webView loadRequest:request];
+    MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.webView animated:YES];
+    hud.labelText = @"News is loading";
 }
 
-- (void)configureView {
-    // Update the user interface for the detail item.
-    if (self.detailItem) {
-        self.detailDescriptionLabel.text = [[self.detailItem valueForKey:@"timeStamp"] description];
-    }
-}
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    // Do any additional setup after loading the view, typically from a nib.
     [self configureView];
 }
 
@@ -42,5 +38,23 @@
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
+
+
+#pragma - mark UIWebView Delegate Methods
+- (BOOL)webView:(UIWebView *)webView shouldStartLoadWithRequest:(NSURLRequest *)request navigationType:(UIWebViewNavigationType)navigationType {
+    return YES;
+}
+
+- (void)webViewDidStartLoad:(UIWebView *)webView {
+}
+
+- (void)webViewDidFinishLoad:(UIWebView *)webView{
+    [MBProgressHUD hideHUDForView:self.webView animated:YES];
+}
+
+- (void)webView:(UIWebView *)webView didFailLoadWithError:(NSError *)error {
+    NSLog(@"Failed to load with error :%@",[error debugDescription]);
+}
+
 
 @end

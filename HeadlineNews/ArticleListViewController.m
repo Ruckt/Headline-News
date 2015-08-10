@@ -7,9 +7,11 @@
 //
 
 #import "ArticleListViewController.h"
+#import "DetailViewController.h"
 #import "ArticleDataStore.h"
 #import "Article.h"
 #import "ArticleListTableViewCell.h"
+#import "ImageProvider.h"
 
 @interface ArticleListViewController ()
 
@@ -23,11 +25,21 @@
     [super viewDidLoad];
     self.dataStore = [ArticleDataStore sharedArticleDataStore];
     self.articles = self.dataStore.articleArray;
-    self.navigationItem.title = @"Headline News";
+    self.navigationItem.title = @"Headlines";
 }
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
+}
+
+#pragma mark - Segues
+
+- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
+    if ([[segue identifier] isEqualToString:@"showDetail"]) {
+        NSIndexPath *indexPath = [self.tableView indexPathForSelectedRow];
+        Article *article = [self.articles objectAtIndex:indexPath.row];
+        [[segue destinationViewController] setArticle:article];
+    }
 }
 
 
@@ -58,6 +70,17 @@
     
     if (article.image) {
         cell.cellImageView.image =  article.image;
+    } else {
+        cell.cellImageView.image = [UIImage imageNamed:@"ImagePlaceholder"];
+        [ImageProvider downloadImageWithURL:article.imageURL withCompletionHandler:^(UIImage *image, NSError *error) {
+            if (error) {
+                NSLog(@"Error: %@", error);
+            } else {
+                article.image = image;
+                cell.cellImageView.image = image;
+            }
+        
+        }];
     }
     
 }

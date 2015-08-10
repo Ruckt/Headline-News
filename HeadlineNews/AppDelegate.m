@@ -81,17 +81,15 @@
     
     for (Article *article in articleArray) {
         [ImageProvider downloadImageWithURL:article.imageURL withCompletionHandler:^(UIImage *image, NSError *error) {
-            if (error || !image) {
+            if (error) {
                 NSLog(@"Error: %@", error);
-                article.image = [UIImage imageNamed:@"ImagePlaceholder"];
             } else {
                 article.image = image;
-
             }
             [tableView reloadData];
         }];
     }
-    
+
 }
 
 

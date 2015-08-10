@@ -15,9 +15,4 @@
 @property (nonatomic, weak) IBOutlet UILabel *sourceLabel;
 @property (nonatomic, weak) IBOutlet UILabel *summaryLabel;
 
-
-//- (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier picture:(Picture *)picture;
-//- (void)configureCellWithPicture:(Picture *)thePicture;
-
-
 @end

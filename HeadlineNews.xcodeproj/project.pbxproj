@@ -130,6 +130,17 @@
 			name = Constants;
 			sourceTree = "<group>";
 		};
+		E22A69171B787298001E9BCD /* View Controllers */ = {
+			isa = PBXGroup;
+			children = (
+				E234189A1B71B18E0087EA6F /* ArticleListViewController.h */,
+				E234189B1B71B18E0087EA6F /* ArticleListViewController.m */,
+				E234187B1B71096F0087EA6F /* DetailViewController.h */,
+				E234187C1B71096F0087EA6F /* DetailViewController.m */,
+			);
+			name = "View Controllers";
+			sourceTree = "<group>";
+		};
 		E23418621B71096F0087EA6F = {
 			isa = PBXGroup;
 			children = (
@@ -159,12 +170,9 @@
 				E2CEF22F1B76B767002D03D5 /* DataModel */,
 				E234189D1B72715C0087EA6F /* Networking */,
 				E22A69131B77FB98001E9BCD /* Constants */,
-				E234189A1B71B18E0087EA6F /* ArticleListViewController.h */,
-				E234189B1B71B18E0087EA6F /* ArticleListViewController.m */,
+				E22A69171B787298001E9BCD /* View Controllers */,
 				E23418781B71096F0087EA6F /* MasterViewController.h */,
 				E23418791B71096F0087EA6F /* MasterViewController.m */,
-				E234187B1B71096F0087EA6F /* DetailViewController.h */,
-				E234187C1B71096F0087EA6F /* DetailViewController.m */,
 				E23418811B71096F0087EA6F /* Images.xcassets */,
 				E23418831B71096F0087EA6F /* LaunchScreen.xib */,
 				E234186E1B71096F0087EA6F /* Supporting Files */,
