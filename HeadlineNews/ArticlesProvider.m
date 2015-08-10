@@ -112,6 +112,8 @@ static NSString *articlesEndpoint = @"http://news.google.com/?output=rss";
         Article *article = [Article articleTitle:title source:source date:date summary:summary articleURL:articleURL imageURL:imageURL inManagedObjectContext:self.dataStore.managedObjectContext];
         
         [array addObject:article];
+        NSLog(@"ARTICLE URL: %@", articleURL);
+        
     }
     
     return array;

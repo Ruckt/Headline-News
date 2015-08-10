@@ -7,7 +7,10 @@
 //
 
 #import <Foundation/Foundation.h>
+#import <UIKit/UIKit.h>
 
 @interface ImageProvider : NSObject
+
++ (void)downloadImageWithURL:(NSString *)urlString withCompletionHandler:(void (^)(UIImage *image, NSError *error))completionHandler;
 
 @end

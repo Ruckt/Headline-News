@@ -55,6 +55,11 @@
     cell.titleLabel.text = article.title;
     cell.sourceLabel.text = article.source;
     cell.summaryLabel.text = article.summary;
+    
+    if (article.image) {
+        cell.cellImageView.image =  article.image;
+    }
+    
 }
 
 

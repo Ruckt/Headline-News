@@ -12,6 +12,7 @@
 #import "MBProgressHUD.h"
 #import "ArticlesProvider.h"
 #import "Article.h"
+#import "ImageProvider.h"
 
 
 @interface AppDelegate ()
@@ -70,7 +71,26 @@
         controller.articles = articles;
         [controller.tableView reloadData];
         [MBProgressHUD hideHUDForView:view animated:YES];
+        
+        [self fetchImagesForEachIn:articles inTableView:controller.tableView];
     }];
+    
+}
+
+-(void)fetchImagesForEachIn:(NSArray *)articleArray inTableView:(UITableView *)tableView {
+    
+    for (Article *article in articleArray) {
+        [ImageProvider downloadImageWithURL:article.imageURL withCompletionHandler:^(UIImage *image, NSError *error) {
+            if (error || !image) {
+                NSLog(@"Error: %@", error);
+                article.image = [UIImage imageNamed:@"ImagePlaceholder"];
+            } else {
+                article.image = image;
+
+            }
+            [tableView reloadData];
+        }];
+    }
     
 }
 

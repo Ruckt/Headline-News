@@ -38,32 +38,40 @@
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
                                         <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="PUB-0q-bYA">
-                                            <rect key="frame" x="18" y="18" width="100" height="100"/>
+                                            <rect key="frame" x="18" y="18" width="80" height="80"/>
                                             <constraints>
-                                                <constraint firstAttribute="height" constant="100" id="2xA-SQ-2Zh"/>
-                                                <constraint firstAttribute="width" constant="100" id="gZw-Bh-VGd"/>
+                                                <constraint firstAttribute="height" constant="80" id="2xA-SQ-2Zh"/>
+                                                <constraint firstAttribute="width" constant="80" id="gZw-Bh-VGd"/>
                                             </constraints>
                                         </imageView>
-                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Summary" lineBreakMode="tailTruncation" numberOfLines="3" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="eGJ-KJ-5mC" userLabel="Summary Label">
-                                            <rect key="frame" x="18" y="128" width="551" height="54"/>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Summary" lineBreakMode="tailTruncation" numberOfLines="5" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="eGJ-KJ-5mC" userLabel="Summary Label">
+                                            <rect key="frame" x="18" y="108" width="551" height="74"/>
                                             <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="15"/>
                                             <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                             <nil key="highlightedColor"/>
                                         </label>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Source" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="eit-rg-ZzM" userLabel="Source Label">
-                                            <rect key="frame" x="128" y="98" width="421" height="20"/>
+                                            <rect key="frame" x="108" y="83" width="441" height="15"/>
+                                            <constraints>
+                                                <constraint firstAttribute="height" constant="15" id="UZw-wy-CjD"/>
+                                            </constraints>
                                             <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="13"/>
                                             <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                             <nil key="highlightedColor"/>
                                         </label>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" text="Title" lineBreakMode="tailTruncation" numberOfLines="4" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="DZs-5R-dK1" userLabel="Title Label">
-                                            <rect key="frame" x="128" y="18" width="421" height="75"/>
+                                            <rect key="frame" x="108" y="18" width="441" height="60"/>
                                             <constraints>
                                                 <constraint firstAttribute="height" constant="75" id="3YF-8M-6Hw"/>
                                             </constraints>
                                             <fontDescription key="fontDescription" name="HelveticaNeue-Bold" family="Helvetica Neue" pointSize="15"/>
                                             <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                             <nil key="highlightedColor"/>
+                                            <variation key="default">
+                                                <mask key="constraints">
+                                                    <exclude reference="3YF-8M-6Hw"/>
+                                                </mask>
+                                            </variation>
                                         </label>
                                     </subviews>
                                     <constraints>
