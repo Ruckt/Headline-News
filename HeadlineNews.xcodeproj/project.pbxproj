@@ -10,6 +10,8 @@
 		96DA2D92895C2C6BCA69B18D /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 9D80908E153042571B7BF271 /* libPods.a */; };
 		E22A69121B77F0C1001E9BCD /* ArticleListTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = E22A69111B77F0C1001E9BCD /* ArticleListTableViewCell.m */; };
 		E22A69161B781CCA001E9BCD /* ImageProvider.m in Sources */ = {isa = PBXBuildFile; fileRef = E22A69151B781CCA001E9BCD /* ImageProvider.m */; };
+		E22A691B1B79444D001E9BCD /* ArticleProviderTest.m in Sources */ = {isa = PBXBuildFile; fileRef = E22A691A1B79444D001E9BCD /* ArticleProviderTest.m */; };
+		E22A691E1B795481001E9BCD /* ConstantsForTests.m in Sources */ = {isa = PBXBuildFile; fileRef = E22A691D1B795481001E9BCD /* ConstantsForTests.m */; };
 		E23418711B71096F0087EA6F /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = E23418701B71096F0087EA6F /* main.m */; };
 		E23418741B71096F0087EA6F /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = E23418731B71096F0087EA6F /* AppDelegate.m */; };
 		E23418771B71096F0087EA6F /* HeadlineNews.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = E23418751B71096F0087EA6F /* HeadlineNews.xcdatamodeld */; };
@@ -44,6 +46,9 @@
 		E22A69111B77F0C1001E9BCD /* ArticleListTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ArticleListTableViewCell.m; sourceTree = "<group>"; };
 		E22A69141B781CCA001E9BCD /* ImageProvider.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ImageProvider.h; sourceTree = "<group>"; };
 		E22A69151B781CCA001E9BCD /* ImageProvider.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ImageProvider.m; sourceTree = "<group>"; };
+		E22A691A1B79444D001E9BCD /* ArticleProviderTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ArticleProviderTest.m; sourceTree = "<group>"; };
+		E22A691C1B795481001E9BCD /* ConstantsForTests.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ConstantsForTests.h; sourceTree = "<group>"; };
+		E22A691D1B795481001E9BCD /* ConstantsForTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ConstantsForTests.m; sourceTree = "<group>"; };
 		E234186B1B71096F0087EA6F /* HeadlineNews.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = HeadlineNews.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		E234186F1B71096F0087EA6F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		E23418701B71096F0087EA6F /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
@@ -188,7 +193,10 @@
 			isa = PBXGroup;
 			children = (
 				E23418901B71096F0087EA6F /* HeadlineNewsTests.m */,
+				E22A691A1B79444D001E9BCD /* ArticleProviderTest.m */,
 				E234188E1B71096F0087EA6F /* Supporting Files */,
+				E22A691C1B795481001E9BCD /* ConstantsForTests.h */,
+				E22A691D1B795481001E9BCD /* ConstantsForTests.m */,
 			);
 			path = HeadlineNewsTests;
 			sourceTree = "<group>";
@@ -381,6 +389,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				E23418911B71096F0087EA6F /* HeadlineNewsTests.m in Sources */,
+				E22A691E1B795481001E9BCD /* ConstantsForTests.m in Sources */,
+				E22A691B1B79444D001E9BCD /* ArticleProviderTest.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

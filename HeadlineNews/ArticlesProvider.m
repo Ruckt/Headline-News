@@ -100,6 +100,7 @@ static NSString *articlesEndpoint = @"http://news.google.com/?output=rss";
         }
         
         NSString *desciptionHtml = item.descriptionHtml;
+        
         NSString *pubDate = item.pubDate;
         NSString *articleURL = [self extractArticleURLFromHTML:desciptionHtml];
         NSString *imageURL = [self extractImageURLFromHTML:desciptionHtml];
@@ -108,6 +109,8 @@ static NSString *articlesEndpoint = @"http://news.google.com/?output=rss";
         
         Article *article = [Article articleTitle:title source:source date:date summary:summary articleURL:articleURL imageURL:imageURL inManagedObjectContext:self.dataStore.managedObjectContext];
         
+        NSLog(@"Description %@", desciptionHtml);
+        NSLog(@"ImageURL: %@", imageURL);
         [self.dataStore.articleArray addObject:article];
     }
     
