@@ -13,7 +13,6 @@
 		E23418711B71096F0087EA6F /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = E23418701B71096F0087EA6F /* main.m */; };
 		E23418741B71096F0087EA6F /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = E23418731B71096F0087EA6F /* AppDelegate.m */; };
 		E23418771B71096F0087EA6F /* HeadlineNews.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = E23418751B71096F0087EA6F /* HeadlineNews.xcdatamodeld */; };
-		E234187A1B71096F0087EA6F /* MasterViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E23418791B71096F0087EA6F /* MasterViewController.m */; };
 		E234187D1B71096F0087EA6F /* DetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E234187C1B71096F0087EA6F /* DetailViewController.m */; };
 		E23418801B71096F0087EA6F /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E234187E1B71096F0087EA6F /* Main.storyboard */; };
 		E23418821B71096F0087EA6F /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E23418811B71096F0087EA6F /* Images.xcassets */; };
@@ -51,8 +50,6 @@
 		E23418721B71096F0087EA6F /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		E23418731B71096F0087EA6F /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
 		E23418761B71096F0087EA6F /* HeadlineNews.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = HeadlineNews.xcdatamodel; sourceTree = "<group>"; };
-		E23418781B71096F0087EA6F /* MasterViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MasterViewController.h; sourceTree = "<group>"; };
-		E23418791B71096F0087EA6F /* MasterViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MasterViewController.m; sourceTree = "<group>"; };
 		E234187B1B71096F0087EA6F /* DetailViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DetailViewController.h; sourceTree = "<group>"; };
 		E234187C1B71096F0087EA6F /* DetailViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DetailViewController.m; sourceTree = "<group>"; };
 		E234187F1B71096F0087EA6F /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
@@ -171,8 +168,6 @@
 				E234189D1B72715C0087EA6F /* Networking */,
 				E22A69131B77FB98001E9BCD /* Constants */,
 				E22A69171B787298001E9BCD /* View Controllers */,
-				E23418781B71096F0087EA6F /* MasterViewController.h */,
-				E23418791B71096F0087EA6F /* MasterViewController.m */,
 				E23418811B71096F0087EA6F /* Images.xcassets */,
 				E23418831B71096F0087EA6F /* LaunchScreen.xib */,
 				E234186E1B71096F0087EA6F /* Supporting Files */,
@@ -374,7 +369,6 @@
 				E22A69161B781CCA001E9BCD /* ImageProvider.m in Sources */,
 				E2CEF2321B76B880002D03D5 /* ArticleDataStore.m in Sources */,
 				E234189C1B71B18E0087EA6F /* ArticleListViewController.m in Sources */,
-				E234187A1B71096F0087EA6F /* MasterViewController.m in Sources */,
 				E23418A01B7272B50087EA6F /* ArticlesProvider.m in Sources */,
 				E23418741B71096F0087EA6F /* AppDelegate.m in Sources */,
 				E23418711B71096F0087EA6F /* main.m in Sources */,

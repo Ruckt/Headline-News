@@ -53,10 +53,7 @@ static NSString *articlesEndpoint = @"http://news.google.com/?output=rss";
     [operation setCompletionBlockWithSuccess:^(AFHTTPRequestOperation *operation, id responseObject) {
        
         [self parseMethodsOfObject:responseObject];
-        
         NSArray *arrayOfArticles = [self createArrayOfArticleObjectsFrom:self.xmlGoogleNews];
-        
-        NSLog(@"ATTEND TO ISSUES ABOVE: date, imageHTML, image, articleHTML");
         
         if (completionHandler) {
             completionHandler(arrayOfArticles,nil);
@@ -66,7 +63,7 @@ static NSString *articlesEndpoint = @"http://news.google.com/?output=rss";
         
         NSLog(@"Error: %@", error);
         
-        UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Error Retrieving Data"
+        UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Error Retrieving The Latest News"
                                                             message:[error localizedDescription]
                                                            delegate:nil
                                                   cancelButtonTitle:@"Ok"
@@ -83,9 +80,9 @@ static NSString *articlesEndpoint = @"http://news.google.com/?output=rss";
 
 
 -(NSArray *)createArrayOfArticleObjectsFrom:(NSDictionary *)dictionary {
-    
-    NSMutableArray *array = [[NSMutableArray alloc] init];
-    
+ 
+    [self.dataStore removePreviouslySavedArticles];
+
     for (NSDictionary *item in [dictionary objectForKey:@"articles"]) {
         
         
@@ -111,12 +108,11 @@ static NSString *articlesEndpoint = @"http://news.google.com/?output=rss";
         
         Article *article = [Article articleTitle:title source:source date:date summary:summary articleURL:articleURL imageURL:imageURL inManagedObjectContext:self.dataStore.managedObjectContext];
         
-        [array addObject:article];
-        NSLog(@"ARTICLE URL: %@", articleURL);
-        
+        [self.dataStore.articleArray addObject:article];
     }
     
-    return array;
+    [self.dataStore saveContext];
+    return self.dataStore.articleArray;
 }
 
 -(NSString *)extractImageURLFromHTML:(NSString *)html {

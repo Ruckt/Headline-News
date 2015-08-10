@@ -53,7 +53,15 @@
 }
 
 - (void)webView:(UIWebView *)webView didFailLoadWithError:(NSError *)error {
+    [MBProgressHUD hideHUDForView:self.webView animated:YES];
     NSLog(@"Failed to load with error :%@",[error debugDescription]);
+    
+    UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Error Retrieving This Article"
+                                                        message:[error localizedDescription]
+                                                       delegate:nil
+                                              cancelButtonTitle:@"Ok"
+                                              otherButtonTitles:nil];
+    [alertView show];
 }
 
 

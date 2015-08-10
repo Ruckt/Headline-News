@@ -24,8 +24,9 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.dataStore = [ArticleDataStore sharedArticleDataStore];
-    self.articles = self.dataStore.articleArray;
+    self.articles = [self.dataStore fetchSavedArticles];
     self.navigationItem.title = @"Headlines";
+    NSLog(@"Number of articles: %lu", (unsigned long)[self.articles count]);
 }
 
 - (void)didReceiveMemoryWarning {
@@ -84,6 +85,7 @@
     }
     
 }
+
 
 
 

@@ -28,6 +28,37 @@
 }
 
 
+#pragma mark - Fetch Methods
+
+- (NSArray *)fetchSavedArticles {
+    
+    NSFetchRequest *articlesFetchRequest = [[NSFetchRequest alloc] initWithEntityName:@"Article"];
+    NSArray *allArticles = [[NSArray alloc] init];
+    
+    NSError *error;
+    allArticles = [self.managedObjectContext executeFetchRequest:articlesFetchRequest error:&error];
+    if (error){
+        NSLog(@"%@",error);
+    }
+    return allArticles;
+}
+
+- (void)removePreviouslySavedArticles {
+    
+    NSEntityDescription *entityDescription = [NSEntityDescription entityForName:@"Article" inManagedObjectContext:self.managedObjectContext];
+    NSFetchRequest *request = [[NSFetchRequest alloc] init];
+    [request setEntity:entityDescription];
+    
+    NSError *error;
+    NSArray *results = [self.managedObjectContext executeFetchRequest:request error:&error];
+    
+    if (results) {
+        for (NSManagedObject *savedApp in results) {
+            [self.managedObjectContext deleteObject:savedApp];
+        }
+    }
+}
+
 
 #pragma mark - Article Methods
 -(NSMutableArray *)articleArray{

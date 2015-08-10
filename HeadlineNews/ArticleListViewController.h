@@ -11,6 +11,5 @@
 @interface ArticleListViewController : UITableViewController
 
 @property (strong, nonatomic) NSArray *articles;
-//@property (strong, nonatomic) IBOutlet UITableView *tableView;
 
 @end

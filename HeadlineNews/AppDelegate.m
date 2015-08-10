@@ -7,9 +7,8 @@
 //
 
 #import "AppDelegate.h"
-#import "DetailViewController.h"
+#import "ArticleDataStore.h"
 #import "ArticleListViewController.h"
-#import "MBProgressHUD.h"
 #import "ArticlesProvider.h"
 #import "Article.h"
 #import "ImageProvider.h"
@@ -18,6 +17,7 @@
 @interface AppDelegate ()
 
 @property (strong, atomic) UINavigationController *navigationController;
+@property (strong, nonatomic) ArticleDataStore *dataStore;
 
 @end
 
@@ -27,7 +27,10 @@
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
 
     self.navigationController = (UINavigationController *)self.window.rootViewController;
-    [self fetchDataInView:self.navigationController.view];
+    self.dataStore = [ArticleDataStore sharedArticleDataStore];
+
+    ArticleListViewController *controller = (ArticleListViewController *)self.navigationController.topViewController;
+    [self requestArticlesFromFeedForVC:controller];
 
     return YES;
 }
@@ -55,29 +58,26 @@
     // Saves changes in the application's managed object context before the application terminates.
 }
 
-#pragma mark - Networking
+#pragma mark - Retreiving data
 
--(void)fetchDataInView:(UIView *)view {
-    
-    MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:view animated:YES];
-    hud.labelText = @"We're finding your news";
+- (void)requestArticlesFromFeedForVC:(ArticleListViewController *)controller {
     
     [[ArticlesProvider sharedArticleProvider] requestArticlesFromFeedWithCompletionHandler:^(NSArray *articles, NSError *error) {
 
         if (error) {
             NSLog(@"Error: %@", error);
-        }
-        ArticleListViewController *controller = (ArticleListViewController *)self.navigationController.topViewController;
-        controller.articles = articles;
-        [controller.tableView reloadData];
-        [MBProgressHUD hideHUDForView:view animated:YES];
+        } else {
+            
+            controller.articles = articles;
+            [controller.tableView reloadData];
         
-        [self fetchImagesForEachIn:articles inTableView:controller.tableView];
+            [self fetchImagesForEachIn:articles inTableView:controller.tableView];
+        }
     }];
     
 }
 
--(void)fetchImagesForEachIn:(NSArray *)articleArray inTableView:(UITableView *)tableView {
+- (void)fetchImagesForEachIn:(NSArray *)articleArray inTableView:(UITableView *)tableView {
     
     for (Article *article in articleArray) {
         [ImageProvider downloadImageWithURL:article.imageURL withCompletionHandler:^(UIImage *image, NSError *error) {

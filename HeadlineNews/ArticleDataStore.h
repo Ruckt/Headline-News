@@ -20,6 +20,7 @@
 + (ArticleDataStore *)sharedArticleDataStore;
 - (void)saveContext;
 - (NSURL *)applicationDocumentsDirectory;
-
+- (NSArray *)fetchSavedArticles;
+- (void)removePreviouslySavedArticles;
 
 @end
