@@ -83,8 +83,8 @@
         [ImageProvider downloadImageWithURL:article.imageURL withCompletionHandler:^(UIImage *image, NSError *error) {
             if (error) {
                 NSLog(@"Error: %@", error);
-            } else {
-                article.image = image;
+            } else if (article) {
+                [article setImage:image];
             }
             [tableView reloadData];
         }];

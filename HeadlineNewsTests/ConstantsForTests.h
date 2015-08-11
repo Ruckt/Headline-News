@@ -12,5 +12,6 @@
 
 @property (strong, nonatomic) NSString *stringWithImageHTML;
 @property (strong, nonatomic) NSString *imageHTML;
-
+@property (strong, nonatomic) NSString *stringWithArticleHTML;
+@property (strong, nonatomic) NSString *articleHTML;
 @end

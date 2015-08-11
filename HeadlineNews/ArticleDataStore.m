@@ -53,8 +53,10 @@
     NSArray *results = [self.managedObjectContext executeFetchRequest:request error:&error];
     
     if (results) {
-        for (NSManagedObject *savedApp in results) {
-            [self.managedObjectContext deleteObject:savedApp];
+        for (NSManagedObject *article in results) {
+            if (article) {
+                [self.managedObjectContext deleteObject:article];
+            }
         }
     }
 }

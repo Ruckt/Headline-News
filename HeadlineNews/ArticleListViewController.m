@@ -26,7 +26,6 @@
     self.dataStore = [ArticleDataStore sharedArticleDataStore];
     self.articles = [self.dataStore fetchSavedArticles];
     self.navigationItem.title = @"Headlines";
-    NSLog(@"Number of articles: %lu", (unsigned long)[self.articles count]);
 }
 
 - (void)didReceiveMemoryWarning {
@@ -77,7 +76,6 @@
             if (error) {
                 NSLog(@"Error: %@", error);
             } else {
-                article.image = image;
                 cell.cellImageView.image = image;
             }
         

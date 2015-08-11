@@ -54,7 +54,7 @@ static NSString *articlesEndpoint = @"http://news.google.com/?output=rss";
        
         [self parseMethodsOfObject:responseObject];
         NSArray *arrayOfArticles = [self createArrayOfArticleObjectsFrom:self.xmlGoogleNews];
-        
+   
         if (completionHandler) {
             completionHandler(arrayOfArticles,nil);
         }
@@ -108,13 +108,12 @@ static NSString *articlesEndpoint = @"http://news.google.com/?output=rss";
         NSString *date = [self extractDateFrom:pubDate];
         
         Article *article = [Article articleTitle:title source:source date:date summary:summary articleURL:articleURL imageURL:imageURL inManagedObjectContext:self.dataStore.managedObjectContext];
-        
-        NSLog(@"Description %@", desciptionHtml);
-        NSLog(@"ImageURL: %@", imageURL);
+
         [self.dataStore.articleArray addObject:article];
     }
     
     [self.dataStore saveContext];
+    
     return self.dataStore.articleArray;
 }
 
@@ -196,10 +195,6 @@ static NSString *articlesEndpoint = @"http://news.google.com/?output=rss";
     if([qName isEqualToString:@"item"]) {
         self.currentDictionary = [NSMutableDictionary dictionary];
     }
-    
-//    else if ([qName isEqualToString:@"pubDate"]) {
-//        self.currentDictionary = [NSMutableDictionary dictionary];
-//    }
     
     self.outstring = [NSMutableString string];
 }
